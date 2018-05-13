@@ -5,6 +5,11 @@ contract Increment {
   uint256 number;
   address owner;
 
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
   function Increment(address _owner) public {
       number = 1;
       owner = _owner;
@@ -14,8 +19,7 @@ contract Increment {
     _number = number;
   }
 
-  function inc() public {
-    require(msg.sender == owner);
+  function inc() public onlyOwner {
     number += 1;
   }
 }
