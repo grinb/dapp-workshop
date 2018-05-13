@@ -1,18 +1,15 @@
 pragma solidity ^0.4.17;
 
-contract Increment {
+import './Ownable.sol';
+
+contract Increment is Ownable{
 
   uint256 number;
-  address owner;
 
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-  function Increment(address _owner) public {
+  function Increment(address _owner) public
+  Ownable(_owner)
+   {
       number = 1;
-      owner = _owner;
   }
 
   function get() public view returns (uint256 _number){
