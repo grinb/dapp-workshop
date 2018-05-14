@@ -37,6 +37,7 @@ App = {
   bindEvents: function() {
     $(document).on('click', '.btn-add-title', App.addTitle);
     $(document).on('click', '.btn-get-titles-count', App.getTitlesCount);
+    $(document).on('click', '.btn-get-titles', App.getTitles);
   },
 
   addTitle: function() {
@@ -87,6 +88,55 @@ App = {
     });
   },
 
+  getTitle: function(idx) {
+
+    var titlesInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Titles.deployed().then(function(instance) {
+        titlesInstance = instance;
+
+        // Execute adopt as a transaction by sending account
+        return titlesInstance.getTitle(idx);
+      }).then(function(result) {
+        $('#titles-list').val($('#titles-list').val() + ' ' + result);
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  getTitles: function() {
+    var titlesInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.Titles.deployed().then(function(instance) {
+        titlesInstance = instance;
+
+        // Execute adopt as a transaction by sending account
+        return titlesInstance.getTitlesCount();
+      }).then(function(result) {
+        for(var i=0;i<result;i++){
+          App.getTitle(i);
+        }
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+
+  }
 
 };
 
