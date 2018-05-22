@@ -39,6 +39,7 @@ App = {
     $(document).on('click', '.btn-get-titles-count', App.getTitlesCount);
   },
 
+
   addTitle: function() {
 
     var titlesInstance;
